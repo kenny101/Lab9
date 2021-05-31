@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,6 +26,7 @@
     }
   </style>
 </head>
+
 <body>
   <fieldset>
     <legend>Error Calculator</legend>
@@ -42,18 +44,26 @@
   </fieldset>
 
   <section id="error-btns">
-    <button>Console Log Demo</button>
-    <button>Console Error Demo</button>
-    <button>Console Dir</button>
-    <button>Console dirxml</button>
-    <button>Console Group Start</button>
-    <button>Console Group End</button>
-    <button>Console Table</button>
-    <button>Start Timer</button>
-    <button>End Timer</button>
-    <button>Console Trace</button>
-    <button>Trigger a Global Error</button>
+    <button onclick="consoleDemo()">Console Log Demo</button>
+    <button onclick="consoleErrorDemo()">Console Error Demo </button>
+    <button onclick="consoleDir()">Console Dir</button>
+    <button onclick="consoleDirxml()">Console dirxml</button>
+    <button onclick="consoleGroupStart()">Console Group Start</button>
+    <button onclick="consoleGroupEnd()">Console Group End</button>
+    <button onclick="consoleTable()">Console Table</button>
+    <button onclick="consoleTimer()">Start Timer</button>
+    <button onclick="endTimer()">End Timer</button>
+    <button onclick="consoleTrace()">Console Trace</button>
+    <button onclick="triggerError()">Trigger a Global Error</button>
   </section>
+
+  <script src="test.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({
+      token: "ff359ad99abb49fb9569dd49461f3074"
+    });
+    TrackJS.track('Testing TrackJS!');
+  </script>
 
   <script>
     let calculateBtn = document.querySelector('#calculate');
@@ -67,6 +77,82 @@
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
     // TODO - Make buttons functional
+    const consoleDemo = function consoleLogDemo() {
+      console.log("Hello I am console demo")
+    }
+
+    const consoleErrorDemo = function consoleErrorDemo() {
+      console.error("Hello I am console error");
+    }
+
+    const consoleDir = function consoleDir() {
+      console.dir("Dir of error buttons:", errorBtns);
+    }
+
+    const consoleDirxml = function consoleDirxml() {
+      console.dirxml("Dirxml of error buttons:", errorBtns);
+    }
+
+    const consoleGroupStart = function consoleGroupStart() {
+      console.log("Group was started")
+      console.group();
+    }
+
+    const consoleGroupEnd = function consoleGroupEnd() {
+      console.groupEnd();
+      console.log("Group was ended")
+
+    }
+
+    const consoleTable = function consoleTable() {
+      console.table(["Hello", "I", "am", "consoleTable"]);
+    }
+
+    const consoleTimer = function consoleTimer() {
+      console.time("Timer");
+      console.timeLog("Timer");
+    }
+
+    const endTimer = function endTimer() {
+      console.timeEnd("Timer")
+    }
+
+    const consoleTrace = function consoleTrace() {
+      console.trace("Hello I am consoleTrace");
+    }
+
+    const triggerError = function triggerError() {
+      throw new Error("Hello I am triggerError");
+    }
+
+    // Trying a catching #1
+    try {
+      document.getElementById("first-num").value = ""
+      document.getElementById("calculate").click();
+      throw new Error("Cannot calculate an empty field!");
+    } catch (error) {
+      console.log("Cannot calculate an empty field!", error)
+    } finally {
+      console.log("Error Resolved!");
+    }
+
+    // Trying a catching #2
+    try {
+      document.getElementById("calculate").style.visibility = "hidden";
+      if (document.getElementById("calculate").style.visibility == "hidden") {
+        console.error("Whoops, calculate button was hidden");
+        throw new Error("Whoops, calculate button was hidden");
+      }
+    } catch (error) {
+      setTimeout(function () {
+        document.getElementById("calculate").style.visibility = "visible";;
+      }, 1000);
+      console.log("It is visible again!");
+    } finally {
+      console.log("No errors!")
+    }
   </script>
+
 </body>
+
 </html>
