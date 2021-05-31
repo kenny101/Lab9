@@ -125,18 +125,21 @@
       throw new Error("Hello I am triggerError");
     }
 
-    // Trying and catching #1
-    try {
+    const calculatorError = function() {
       document.getElementById("first-num").value = ""
       document.getElementById("calculate").click();
-      throw new Error("Cannot calculate an empty field!");
+    }
+
+    // Trying and catching #1
+    try {
+      calculatorError();
     } catch (error) {
       console.log("Cannot calculate an empty field!", error)
     } finally {
       console.log("Error Resolved!");
     }
 
-    // Trying and catching #2
+    // Trying and forcing an error
     try {
       document.getElementById("calculate").style.visibility = "hidden";
       if (document.getElementById("calculate").style.visibility == "hidden") {
